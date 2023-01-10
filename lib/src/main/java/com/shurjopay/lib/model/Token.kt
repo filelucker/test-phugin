@@ -1,10 +1,7 @@
-package com.shurjopay.lib
+package com.shurjopay.lib.model
 
 /**
- * Token data class
- *
- * @author  Moniruzzaman
- * @since   2021-08-07
+ * Created by @author Moniruzzaman on 10/1/23. github: filelucker
  */
 data class Token(
     var username: String,

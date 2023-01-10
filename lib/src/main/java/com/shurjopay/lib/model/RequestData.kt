@@ -1,4 +1,4 @@
-package com.shurjopay.plugin
+package com.shurjopay.lib.model
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -6,13 +6,10 @@ import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
 
 /**
- * Required Data data class
- *
- * @author  Moniruzzaman
- * @since   2021-08-07
+ * Created by @author Moniruzzaman on 10/1/23. github: filelucker
  */
 @Parcelize
-data class RequiredData(
+data class RequestData(
     var username: String?,
     var password: String?,
     var prefix: String?,
@@ -64,9 +61,9 @@ data class RequiredData(
     ) {
     }
 
-    companion object : Parceler<RequiredData> {
+    companion object : Parceler<RequestData> {
 
-        override fun RequiredData.write(parcel: Parcel, flags: Int) {
+        override fun RequestData.write(parcel: Parcel, flags: Int) {
             parcel.writeString(username)
             parcel.writeString(password)
             parcel.writeString(prefix)
@@ -92,8 +89,8 @@ data class RequiredData(
             parcel.writeString(value4)
         }
 
-        override fun create(parcel: Parcel): RequiredData {
-            return RequiredData(parcel)
+        override fun create(parcel: Parcel): RequestData {
+            return RequestData(parcel)
         }
     }
 }
