@@ -1,15 +1,15 @@
 package com.shurjopay.lib.payment
 
-import android.app.ProgressDialog
 import android.net.http.SslError
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import android.webkit.SslErrorHandler
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
+import android.window.OnBackInvokedDispatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.shurjopay.lib.databinding.ActivityPaymentBinding
@@ -43,19 +43,24 @@ class PaymentActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         progressDialog = ProgressBar(this)
-//        progressDialog.setMessage("Please Wait...")
-//        progressDialog.canc(false)
         progressDialog.setVisibility(View.GONE);
 
         sdkType = intent.getStringExtra(Constants.SDK_TYPE).toString()
-        data = intent.getParcelableExtra(Constants.DATA)!!
+
+        if (Build.VERSION.SDK_INT >= 33) {
+            data = intent.getParcelableExtra(Constants.DATA, RequestData::class.java)!!
+        } else {
+            data = intent.getParcelableExtra(Constants.DATA)!!
+        }
         getToken()
+
+
     }
 
     private fun getToken() {
         showProgress()
         val token = Token(
-            data.username!!, data.password!!, null, null, null,
+            data.username, data.password, null, null, null,
             null, null, null, null
         )
 
@@ -204,7 +209,7 @@ class PaymentActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
+    override fun getOnBackInvokedDispatcher(): OnBackInvokedDispatcher {
         ShurjoPaySDK.listener?.onFailed(
             ErrorSuccess(
                 ErrorSuccess.ESType.HTTP_ERROR,
@@ -212,7 +217,7 @@ class PaymentActivity : AppCompatActivity() {
                 Constants.PAYMENT_CANCELLED_BY_USER,
             )
         )
-        super.onBackPressed()
+        return super.getOnBackInvokedDispatcher()
     }
 
     companion object {
@@ -226,20 +231,20 @@ class PaymentActivity : AppCompatActivity() {
         return CheckoutRequest(
             tokenResponse?.token.toString(),
             tokenResponse?.store_id!!,
-            data.prefix!!,
-            data.currency!!,
+            data.prefix,
+            data.currency,
             data.returnUrl,
             data.cancelUrl,
             data.amount,
-            data.orderId!!,
+            data.orderId,
             data.discountAmount,
             data.discPercent,
             data.clientIp,
-            data.customerName!!,
-            data.customerPhone!!,
+            data.customerName,
+            data.customerPhone,
             data.customerEmail,
-            data.customerAddress!!,
-            data.customerCity!!,
+            data.customerAddress,
+            data.customerCity,
             data.customerState,
             data.customerPostcode,
             data.customerCountry,
