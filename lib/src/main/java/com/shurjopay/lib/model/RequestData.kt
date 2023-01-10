@@ -14,7 +14,7 @@ data class RequestData(
     var password: String?,
     var prefix: String?,
     var currency: String?,
-    var amount: Double,
+    var amount: Double?,
     var orderId: String?,
     var discountAmount: Double?,
     var discPercent: Double?,
@@ -39,7 +39,7 @@ data class RequestData(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readDouble(),
+        parcel.readValue(Double::class.java.classLoader) as? Double,
         parcel.readString(),
         parcel.readValue(Double::class.java.classLoader) as? Double,
         parcel.readValue(Double::class.java.classLoader) as? Double,
@@ -68,7 +68,7 @@ data class RequestData(
             parcel.writeString(password)
             parcel.writeString(prefix)
             parcel.writeString(currency)
-            parcel.writeDouble(amount)
+            parcel.writeDouble(amount!!)
             parcel.writeString(orderId)
             parcel.writeValue(discountAmount)
             parcel.writeValue(discPercent)
