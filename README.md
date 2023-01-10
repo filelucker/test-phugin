@@ -16,7 +16,7 @@ Also reduces many of the things that you had to do manually:
 ## Audience
 This document is intended for the technical personnel of merchants and service providers who wants to integrate our online payment gateway for Android application using kotlin plugin provided by _**shurjoMukhi Limited**_.
 
-# How to use this shurjoPay plugin
+# How to configure and use this shurjoPay plugin
 To integrate the shurjoPay Payment Gateway in your Android project do the following tasks sequentially.
 
 ```gradle
@@ -31,3 +31,125 @@ android {
     }
 ```
 ```compileSdk 33``` and ```targetSdk 33``` required api 33
+
+To get a Git project into your build:
+
+Step 1. Add the JitPack repository to your build file
+Add it in your root build.gradle at the end of repositories:
+```gradel
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+  ```
+ add this to ```build.gradle (Module: app)``` or if you are using "Android Studio Arctic Fox" or heigher add this to ```settings.gradle (Project Settings)```
+  
+  Step 2. Add the dependency
+```gradel
+	dependencies {
+		...
+	        implementation 'com.github.filelucker:test-plugin:v1.1.3'
+		...
+	}
+  ```
+  
+# Android AndroidManifest
+
+```git_android_manifest_xml
+<uses-permission android:name="android.permission.INTERNET"/>
+```
+
+# Request Data Model Setup:
+
+```git_request_data_model_setup
+// TODO request data model setup
+val data = RequestData(
+    username,
+    password,
+    prefix,
+    currency,
+    amount,
+    orderId,
+    discountAmount,
+    discPercent,
+    customerName,
+    customerPhone,
+    customerEmail,
+    customerAddress,
+    customerCity,
+    customerState,
+    customerPostcode,
+    customerCountry,
+    returnUrl,
+    cancelUrl,
+    clientIp,
+    value1,
+    value2,
+    value3,
+    value4
+)
+```
+
+# Response Listener Setup:
+
+
+```git_response_listener_setup
+// TODO response listener
+object : PaymentResultListener {
+    override fun onSuccess(errorSuccess: ErrorSuccess) {
+        Log.d(TAG, "onSuccess: transactionInfo = ${errorSuccess.transactionInfo}")
+        Toast.makeText(
+            this@MainActivity, "onSuccess: transactionInfo = " +
+                    errorSuccess.transactionInfo, Toast.LENGTH_LONG
+        ).show()
+    }
+    //
+    override fun onFailed(errorSuccess: ErrorSuccess) {
+        Log.d(TAG, "onFailed: message = ${errorSuccess.message}")
+        Toast.makeText(this@MainActivity, errorSuccess.message, Toast.LENGTH_SHORT).show()
+    }
+    //
+    override fun onBackButtonListener(errorSuccess: ErrorSuccess): Boolean {
+        return true
+    }
+}
+```
+
+# Payment Request Setup:
+
+```git_payment_request_setup
+// TODO payment request setup
+ShurjoPaySDK.instance?.makePayment(
+this,
+Constants.SDK_TYPE_SANDBOX,
+data,
+object : PaymentResultListener {
+    override fun onSuccess(errorSuccess: ErrorSuccess) {
+        Log.d(TAG, "onSuccess: transactionInfo = ${errorSuccess.transactionInfo}")
+        Toast.makeText(
+            this@MainActivity, "onSuccess: transactionInfo = " +
+                    errorSuccess.transactionInfo, Toast.LENGTH_LONG
+        ).show()
+    }
+
+    override fun onFailed(errorSuccess: ErrorSuccess) {
+        Log.d(TAG, "onFailed: message = ${errorSuccess.message}")
+        Toast.makeText(this@MainActivity, errorSuccess.message, Toast.LENGTH_SHORT).show()
+    }
+})
+```
+
+### That's all! Now you are ready to use the python plugin to seamlessly integrate with shurjoPay to make your payment system easy and smooth.
+
+# References
+
+1. [Sample applications and projects](https://github.com/shurjopay-plugins/sp-plugin-usage-examples) in many different languages and frameworks showing 
+2. [shurjopay Plugins](https://github.com/shurjopay-plugins) home page on github
+
+## License
+This code is under the [MIT open source License](LICENSE).
+#### Please [contact](https://shurjopay.com.bd/#contacts) with shurjoPay team for more detail.
+### Copyright ©️2023 [ShurjoMukhi Limited](https://shurjopay.com.bd/)
+  
