@@ -29,5 +29,5 @@ android {
         targetSdk 33
         ...
     }
-    ```
+```
 ```compileSdk 33``` and ```targetSdk 33``` required api 33
