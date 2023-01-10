@@ -3,11 +3,15 @@ package com.shurjopay.lib.payment
 import android.app.ProgressDialog
 import android.net.http.SslError
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
 import android.webkit.SslErrorHandler
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.shurjopay.lib.databinding.ActivityPaymentBinding
 import com.shurjopay.lib.model.*
 import com.shurjopay.lib.networking.ApiClient
@@ -25,7 +29,7 @@ class PaymentActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPaymentBinding
 
-    private lateinit var progressDialog: ProgressDialog
+    private lateinit var progressDialog: ProgressBar
 
     private lateinit var sdkType: String
     private lateinit var data: RequestData
@@ -38,9 +42,10 @@ class PaymentActivity : AppCompatActivity() {
         binding = ActivityPaymentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        progressDialog = ProgressDialog(this)
-        progressDialog.setMessage("Please Wait...")
-        progressDialog.setCancelable(false)
+        progressDialog = ProgressBar(this)
+//        progressDialog.setMessage("Please Wait...")
+//        progressDialog.canc(false)
+        progressDialog.setVisibility(View.GONE);
 
         sdkType = intent.getStringExtra(Constants.SDK_TYPE).toString()
         data = intent.getParcelableExtra(Constants.DATA)!!
@@ -190,12 +195,12 @@ class PaymentActivity : AppCompatActivity() {
     }
 
     private fun showProgress() {
-        progressDialog.show()
+        progressDialog.setVisibility(View.VISIBLE)
     }
 
     private fun hideProgress() {
-        if (progressDialog.isShowing) {
-            progressDialog.dismiss()
+        if (progressDialog.isVisible) {
+            progressDialog.setVisibility(View.GONE)
         }
     }
 
