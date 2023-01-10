@@ -20,9 +20,9 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep,allowobfuscation public class com.shurjopay.lib.model.** { public protected *; }
--keep,allowobfuscation public class com.shurjopay.lib.payment.** { public protected *; }
--keep,allowobfuscation public class com.shurjopay.lib.utils.** { public protected *; }
+#-keep,allowobfuscation public class com.shurjopay.lib.model.** { public protected *; }
+#-keep,allowobfuscation public class com.shurjopay.lib.payment.** { public protected *; }
+#-keep,allowobfuscation public class com.shurjopay.lib.utils.** { public protected *; }
 
  # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
  # EnclosingMethod is required to use InnerClasses.
