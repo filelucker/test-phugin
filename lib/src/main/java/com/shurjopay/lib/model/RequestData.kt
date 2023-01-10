@@ -58,8 +58,7 @@ data class RequestData(
         parcel.readString(),
         parcel.readString(),
         parcel.readString()
-    ) {
-    }
+    )
 
     companion object : Parceler<RequestData> {
 
