@@ -11,7 +11,6 @@ import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import android.window.OnBackInvokedDispatcher
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import com.shurjopay.lib.databinding.ActivityPaymentBinding
 import com.shurjopay.lib.model.*
 import com.shurjopay.lib.networking.ApiClient
@@ -204,7 +203,7 @@ class PaymentActivity : AppCompatActivity() {
     }
 
     private fun hideProgress() {
-        if (progressDialog.isVisible) {
+        if (progressDialog.getVisibility() == View.VISIBLE) {
             progressDialog.setVisibility(View.GONE)
         }
     }
