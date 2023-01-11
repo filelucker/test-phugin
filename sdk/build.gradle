@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.shurjopay.plugin'
+    namespace 'shurjopay.android'
     compileSdk 33
 
     defaultConfig {
