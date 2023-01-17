@@ -2,9 +2,19 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id "kotlin-parcelize"
-
+    id 'maven-publish'
+    id 'signing'
 }
-
+//ext {
+//    GROUP_ID = "io.github.filelucker" // your project id registered in Sonatype
+//    ARTIFACT_ID = "shurjopay" // name of your library
+//    VERSION = "0.1.1"
+//    SITE_URL = 'https://github.com/filelucker/test-plugin'
+//    GIT_URL = 'https://github.com/filelucker/test-plugin.git'
+//}
+//
+//apply from: 'publish.gradle'
+//
 
 
 android {
@@ -36,6 +46,15 @@ android {
     buildFeatures {
         viewBinding true
     }
+    publishing {
+        multipleVariants {
+            withSourcesJar()
+            withJavadocJar()
+            allVariants()
+        }
+    }
+
+
 }
 
 dependencies {
@@ -49,4 +68,6 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+
+
 }

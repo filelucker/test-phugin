@@ -12,16 +12,23 @@ import android.widget.ProgressBar
 import android.window.OnBackInvokedDispatcher
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.shurjopay.lib.databinding.ActivityPaymentBinding
+//import com.shurjopay.lib.TestConfig
 import com.shurjopay.lib.model.*
 import com.shurjopay.lib.networking.ApiClient
 import com.shurjopay.lib.networking.ApiInterface
 import com.shurjopay.lib.utils.Constants
+import com.shurjopay.lib.utils.Constants.Companion.CONFIG_PASSWORD
+import com.shurjopay.lib.utils.Constants.Companion.CONFIG_SDK_TYPE
+import com.shurjopay.lib.utils.Constants.Companion.CONFIG_USERNAME
+import com.shurjopay.lib.utils.Constants.Companion.DEF_TYPE
+import com.shurjopay.lib.utils.Constants.Companion.app_name
 import com.shurjopay.lib.utils.IndeterminateProgressDialog
 
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import shurjopay.lib.R
+import shurjopay.lib.databinding.ActivityPaymentBinding
 
 /**
  * Created by @author Moniruzzaman on 10/1/23. github: filelucker
@@ -33,7 +40,9 @@ class PaymentActivity : AppCompatActivity() {
     private lateinit var progressDialog: IndeterminateProgressDialog
 
     private lateinit var sdkType: String
-    private lateinit var data: RequestData
+    private lateinit var username: String
+    private lateinit var password: String
+    private lateinit var data: TestData
     private var tokenResponse: Token? = null
     private var checkoutRequest: CheckoutRequest? = null
     private var checkoutResponse: CheckoutResponse? = null
@@ -43,27 +52,36 @@ class PaymentActivity : AppCompatActivity() {
         binding = ActivityPaymentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+//        app_name = resources.getString(resources.getIdentifier("app_name", DEF_TYPE,  getPackageName()))
         progressDialog = IndeterminateProgressDialog(this)
         progressDialog.setMessage("Please wait...")
         progressDialog.setCanceledOnTouchOutside(false)
         progressDialog.setCancelable(false)
 
-        sdkType = intent.getStringExtra(Constants.SDK_TYPE).toString()
+
+        sdkType = resources.getString(resources.getIdentifier(CONFIG_SDK_TYPE, DEF_TYPE,  getPackageName()))
+        username = resources.getString(resources.getIdentifier(CONFIG_USERNAME, DEF_TYPE,  getPackageName()))
+        password = resources.getString(resources.getIdentifier(CONFIG_PASSWORD, DEF_TYPE,  getPackageName()))
+//        sdkType = intent.getStringExtra(Constants.SDK_TYPE).toString()
 
         if (Build.VERSION.SDK_INT >= 33) {
-            data = intent.getParcelableExtra(Constants.DATA, RequestData::class.java)!!
+            data = intent.getParcelableExtra(Constants.DATA, TestData::class.java)!!
         } else {
             data = intent.getParcelableExtra(Constants.DATA)!!
         }
         getToken()
 
 
+
+
     }
+
+
 
     private fun getToken() {
         showProgress()
         val token = Token(
-            data.username, data.password, null, null, null,
+            username, password, null, null, null,
             null, null, null, null
         )
 
@@ -229,12 +247,12 @@ class PaymentActivity : AppCompatActivity() {
 
     private fun onExecuteUrlDataBuilder(
         tokenResponse: Token?,
-        data: RequestData
+        data: TestData
     ): CheckoutRequest {
         return CheckoutRequest(
             tokenResponse?.token.toString(),
             tokenResponse?.store_id!!,
-            data.prefix,
+            resources.getString(resources.getIdentifier("shurjopay_prefix", "string",  getPackageName())),
             data.currency,
             data.returnUrl,
             data.cancelUrl,

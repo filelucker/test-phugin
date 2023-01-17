@@ -25,7 +25,13 @@ import androidx.annotation.Keep
     const val NO_INTERNET_PERMISSION = "No internet permission is given!"
     const val NO_NETWORK_STATE_PERMISSION = "No network state permission is given!"
     const val NO_INTERNET_MESSAGE = "No internet connection! Please check your connection settings."
+    const val NO_USER_CREDENTIAL = "User credentials not found"
     const val INVALID_AMOUNT = "Invalid amount!"
     const val DATA = "data"
+    var app_name = ""
+    const val DEF_TYPE = "string"
+    const val CONFIG_SDK_TYPE = "shurjopay_sdk_type"
+    const val CONFIG_USERNAME = "shurjopay_username"
+    const val CONFIG_PASSWORD = "shurjopay_password"
   }
 }

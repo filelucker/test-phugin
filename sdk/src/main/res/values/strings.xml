@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">sp-plugin-android-test</string>
+
+<!--    <string name="shurjopay_username">sp_sandbox</string>-->
+<!--    <string name="shurjopay_password">pyyk97hu&amp;6u6</string>-->
+<!--    <string name="shurjopay_prefix">sp</string>-->
+<!--    <string name="shurjopay_sdk_type">sandbox</string>-->
 </resources>

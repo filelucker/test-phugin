@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import com.shurjopay.lib.R
+import shurjopay.lib.R
 
 /**
  * Created by @author Moniruzzaman on 10/1/23. github: filelucker

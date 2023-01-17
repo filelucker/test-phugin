@@ -5,7 +5,7 @@
 
     <application>
         <activity
-            android:name=".payment.PaymentActivity"
+            android:name="com.shurjopay.lib.payment.PaymentActivity"
             android:exported="true" />
     </application>
 

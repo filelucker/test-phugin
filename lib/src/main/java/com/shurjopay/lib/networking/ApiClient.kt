@@ -16,6 +16,7 @@ class ApiClient {
       val gson = GsonBuilder().setLenient().create()
 
       var baseUrl = Constants.BASE_URL_SANDBOX
+
       when {
         sdkType.equals(Constants.SDK_TYPE_SANDBOX, ignoreCase = true) -> {
           baseUrl = Constants.BASE_URL_SANDBOX
@@ -29,6 +30,7 @@ class ApiClient {
         sdkType.equals(Constants.SDK_TYPE_IPN_LIVE, ignoreCase = true) -> {
           baseUrl = Constants.BASE_URL_IPN_LIVE
         }
+
       }
 
       retrofit = Retrofit.Builder()
