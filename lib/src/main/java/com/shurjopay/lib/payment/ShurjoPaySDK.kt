@@ -29,7 +29,6 @@ class ShurjoPaySDK private constructor() {
         resultListener: PaymentResultListener?
     ) {
 
-//        data?.username = TestConfig().userName
         listener = resultListener
         if (AppResourse().getString(CONFIG_USERNAME, context).trim().equals("") ||
             AppResourse().getString(CONFIG_PASSWORD, context).trim().equals("") ||
@@ -73,4 +72,6 @@ class ShurjoPaySDK private constructor() {
                 return mInstance
             }
     }
+
+
 }

@@ -9,8 +9,8 @@ import android.content.Context
 class AppResourse {
     fun getString(type: String, context: Context): String {
         try {
-            var string = android.content.res.Resources.getSystem().getString(
-                android.content.res.Resources.getSystem().getIdentifier(
+            var string = context.resources.getString(
+                context.resources.getIdentifier(
                     type,
                     Constants.DEF_TYPE, context.getPackageName()
                 )

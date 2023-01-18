@@ -1,34 +1,30 @@
 package com.shurjopay.lib.payment
 
+//import com.shurjopay.lib.TestConfig
+
 import android.net.http.SslError
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.webkit.SslErrorHandler
-import android.webkit.WebChromeClient
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import android.widget.ProgressBar
+import android.webkit.*
 import android.window.OnBackInvokedDispatcher
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-//import com.shurjopay.lib.TestConfig
 import com.shurjopay.lib.model.*
 import com.shurjopay.lib.networking.ApiClient
 import com.shurjopay.lib.networking.ApiInterface
+import com.shurjopay.lib.utils.AppResourse
 import com.shurjopay.lib.utils.Constants
 import com.shurjopay.lib.utils.Constants.Companion.CONFIG_PASSWORD
 import com.shurjopay.lib.utils.Constants.Companion.CONFIG_SDK_TYPE
 import com.shurjopay.lib.utils.Constants.Companion.CONFIG_USERNAME
-import com.shurjopay.lib.utils.Constants.Companion.DEF_TYPE
-import com.shurjopay.lib.utils.Constants.Companion.app_name
 import com.shurjopay.lib.utils.IndeterminateProgressDialog
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import shurjopay.lib.R
 import shurjopay.lib.databinding.ActivityPaymentBinding
+import java.io.InputStream
+import java.net.URL
+import java.net.URLConnection
 
 /**
  * Created by @author Moniruzzaman on 10/1/23. github: filelucker
@@ -59,9 +55,9 @@ class PaymentActivity : AppCompatActivity() {
         progressDialog.setCancelable(false)
 
 
-        sdkType = resources.getString(resources.getIdentifier(CONFIG_SDK_TYPE, DEF_TYPE,  getPackageName()))
-        username = resources.getString(resources.getIdentifier(CONFIG_USERNAME, DEF_TYPE,  getPackageName()))
-        password = resources.getString(resources.getIdentifier(CONFIG_PASSWORD, DEF_TYPE,  getPackageName()))
+        sdkType = AppResourse().getString(CONFIG_SDK_TYPE, this@PaymentActivity).trim()
+        username = AppResourse().getString(CONFIG_USERNAME, this@PaymentActivity).trim()
+        password = AppResourse().getString(CONFIG_PASSWORD, this@PaymentActivity).trim()
 //        sdkType = intent.getStringExtra(Constants.SDK_TYPE).toString()
 
         if (Build.VERSION.SDK_INT >= 33) {
@@ -79,16 +75,17 @@ class PaymentActivity : AppCompatActivity() {
 
 
     private fun getToken() {
-        showProgress()
+
         val token = Token(
             username, password, null, null, null,
             null, null, null, null
         )
-
+        showProgress()
         ApiClient().getApiClient(sdkType)?.create(ApiInterface::class.java)?.getToken(token)
             ?.enqueue(object : Callback<Token> {
                 override fun onResponse(call: Call<Token>, response: Response<Token>) {
                     if (response.isSuccessful) {
+                        hideProgress()
                         tokenResponse = response.body()
                         getExecuteUrl()
                     }
@@ -109,6 +106,7 @@ class PaymentActivity : AppCompatActivity() {
     }
 
     private fun getExecuteUrl() {
+        showProgress()
         checkoutRequest = onExecuteUrlDataBuilder(tokenResponse, data)
         ApiClient().getApiClient(sdkType)?.create(ApiInterface::class.java)?.checkout(
             "Bearer " + tokenResponse?.token,
@@ -145,9 +143,10 @@ class PaymentActivity : AppCompatActivity() {
         binding.webView.settings.domStorageEnabled = true
         binding.webView.loadUrl(checkoutResponse?.checkout_url.toString())
         binding.webView.webViewClient = object : WebViewClient() {
+
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
 //        Log.d(TAG, "shouldOverrideUrlLoading: url = $url")
-
+                binding.webView.setVisibility(View.GONE);
                 if (url.contains(data.cancelUrl.toString())) {
                     ShurjoPaySDK.listener?.onFailed(
                         ErrorSuccess(
@@ -171,10 +170,11 @@ class PaymentActivity : AppCompatActivity() {
             ) {
                 handler?.proceed()
             }
+
         }
         binding.webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                binding.progressBar.progress = newProgress
+//                binding.progressBar.progress = newProgress
             }
         }
     }
@@ -201,8 +201,9 @@ class PaymentActivity : AppCompatActivity() {
                                 "Payment successfully done",
                             )
                         )
-                        finish()
+
                     }
+                    finish()
                 }
             }
 
@@ -226,7 +227,7 @@ class PaymentActivity : AppCompatActivity() {
 
     private fun hideProgress() {
         if (progressDialog.isShowing) {
-            progressDialog.hide()
+            progressDialog.dismiss()
         }
     }
 
@@ -252,7 +253,7 @@ class PaymentActivity : AppCompatActivity() {
         return CheckoutRequest(
             tokenResponse?.token.toString(),
             tokenResponse?.store_id!!,
-            resources.getString(resources.getIdentifier("shurjopay_prefix", "string",  getPackageName())),
+            sdkType,
             data.currency,
             data.returnUrl,
             data.cancelUrl,
