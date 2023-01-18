@@ -55,6 +55,15 @@ Add it in your root build.gradle at the end of repositories:
 	}
   ```
   
+  Step 3. Add these resource in the profject string
+  
+  ```xml
+    <string name="shurjopay_username">sp_sandbox</string>
+    <string name="shurjopay_password">pyyk97hu&amp;6u6</string>
+    <string name="shurjopay_prefix">NOK</string>
+    <string name="shurjopay_sdk_type">sandbox</string>
+  ```
+  
 # Android AndroidManifest
 
 ```git_android_manifest_xml
