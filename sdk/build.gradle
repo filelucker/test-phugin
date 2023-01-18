@@ -2,8 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id "kotlin-parcelize"
-    id 'maven-publish'
-    id 'signing'
+//    id 'maven-publish'
+//    id 'signing'
 //    id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
 
 }
@@ -47,12 +47,12 @@ android {
         viewBinding true
     }
 
-    publishing {
-        singleVariant('release') {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
+//    publishing {
+//        singleVariant('release') {
+//            withSourcesJar()
+//            withJavadocJar()
+//        }
+//    }
 
 //    nexusPublishing {
 //        repositories {
@@ -83,7 +83,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
-    implementation 'com.vanniktech:gradle-maven-publish-plugin:0.13.0'
+//    implementation 'com.vanniktech:gradle-maven-publish-plugin:0.13.0'
 //    implementation 'org.jetbrains.dokka:dokka-gradle-plugin:1.4.10.2'
 }
 

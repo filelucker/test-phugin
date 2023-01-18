@@ -2,8 +2,8 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id "kotlin-parcelize"
-    id 'maven-publish'
-    id 'signing'
+//    id 'maven-publish'
+//    id 'signing'
 }
 //ext {
 //    GROUP_ID = "io.github.filelucker" // your project id registered in Sonatype
@@ -46,13 +46,13 @@ android {
     buildFeatures {
         viewBinding true
     }
-    publishing {
-        multipleVariants {
-            withSourcesJar()
-            withJavadocJar()
-            allVariants()
-        }
-    }
+//    publishing {
+//        multipleVariants {
+//            withSourcesJar()
+//            withJavadocJar()
+//            allVariants()
+//        }
+//    }
 
 
 }
