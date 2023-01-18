@@ -5,8 +5,7 @@ Official shurjoPay Android plugin for merchants or service providers to connect 
 This plugin can be used with any Android application (e.g. Kotlin, Java).
 
 1. **makePayment**: create and send payment request
-1. **verifyPayment**: verify payment status at shurjoPay
-1. **paymentStatus**: Check payment details and status
+2. **verifyPayment**: verify payment status at shurjoPay
 
 Also reduces many of the things that you had to do manually:
 
@@ -50,7 +49,7 @@ Add it in your root build.gradle at the end of repositories:
 ```gradel
 	dependencies {
 		...
-	        implementation 'com.github.filelucker:test-plugin:v1.1.3'
+	        implementation 'com.github.filelucker:test-plugin:v1.1.6'
 		...
 	}
   ```
@@ -74,10 +73,7 @@ Add it in your root build.gradle at the end of repositories:
 
 ```git_request_data_model_setup
 // TODO request data model setup
-val data = RequestData(
-    username,
-    password,
-    prefix,
+val data = TestData(
     currency,
     amount,
     orderId,
@@ -131,10 +127,7 @@ object : PaymentResultListener {
 ```git_payment_request_setup
 // TODO payment request setup
 ShurjoPaySDK.instance?.makePayment(
-this,
-Constants.SDK_TYPE_SANDBOX,
-data,
-object : PaymentResultListener {
+this, data, object : PaymentResultListener {
     override fun onSuccess(errorSuccess: ErrorSuccess) {
         Log.d(TAG, "onSuccess: transactionInfo = ${errorSuccess.transactionInfo}")
         Toast.makeText(
